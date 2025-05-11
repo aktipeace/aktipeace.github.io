@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Prank Hafidz</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+    #jumpscare {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://i.imgur.com/your-jumpscare-image.jpg') center center no-repeat;
+      background-size: cover;
+      z-index: 9999;
+    }
+    #questionModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      z-index: 10000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    #questionModal button {
+      margin: 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="jumpscare"></div>
+
+<div id="questionModal">
+  <p>Apakah kamu takut kepada Hafidz Nurochman?</p>
+  <button id="yesBtn">Ya</button>
+  <button id="noBtn">Tidak</button>
+</div>
+
+<audio id="screamAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<script>
+  const jumpscare = document.getElementById('jumpscare');
+  const questionModal = document.getElementById('questionModal');
+  const screamAudio = document.getElementById('screamAudio');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+
+  // Tampilkan jumpscare setelah 3 detik
+  setTimeout(() => {
+    jumpscare.style.display = 'block';
+    screamAudio.play();
+  }, 3000);
+
+  // Tampilkan modal saat mencoba menutup atau memuat ulang halaman
+  window.onbeforeunload = function(e) {
+    questionModal.style.display = 'block';
+    // Mencegah penutupan halaman
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  };
+
+  // Tombol "Ya" menutup halaman
+  yesBtn.addEventListener('click', () => {
+    window.onbeforeunload = null; // Hapus handler sebelumunload
+    window.close(); // Coba tutup jendela
+  });
+
+  // Tombol "Tidak" memutar ulang suara
+  noBtn.addEventListener('click', () => {
+    screamAudio.currentTime = 0;
+    screamAudio.play();
+  });
+</script>
+
+</body>
+</html>
